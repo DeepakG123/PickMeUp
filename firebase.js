@@ -13,15 +13,6 @@ const firebaseConfig = {
 
 firebase.initializeApp(firebaseConfig);
 
-export function storeHighScore() {
-  firebase
-    .database()
-    .ref('users/' + 2)
-    .set({
-      highscore: 12,
-    });
-}
-
 export function addPickUp(Restaurant, Location, Number, Time, Description){
   firebase
     .database()
@@ -44,3 +35,5 @@ export function getOrders(){
       console.log('Orders: ', snapshot.val());
     });
 }
+
+export default firebase;

@@ -24,10 +24,12 @@ export default class Form extends Component {
        }
      ],
       visible: false,
+      index: 0
       }
 
+
       cards = () => {
-      return this.state.orders.map(order => {
+      return this.state.orders.map((order,index) => {
           return (
             <Card>
               <Card.Title>{order.restaurant}</Card.Title>
@@ -40,7 +42,7 @@ export default class Form extends Component {
               </Text>
               <Button
                 buttonStyle={{borderRadius: 0, marginLeft: 0, marginRight: 0, marginBottom: 0}}
-                onPress={() => { this.setState(prevState => ({ visible: true})) }}
+                onPress={() => { this.setState(prevState => ({ index: index})) }}
                 title='More Details'
                  />
             </Card>
@@ -49,13 +51,20 @@ export default class Form extends Component {
       };
 
       render() {
-        console.log(this.state)
+        console.log(typeof(this.state.visible))
         return (
           <View>
           {this.cards()}
-          <Overlay isVisible={this.state.visible} onBackdropPress={() => { this.setState(prevState => ({ visible: false})) }}>
-            <Text>Hello from Overlay!
-            </Text>
+          <Overlay isVisible={this.state.visible} onBackdropPress={() => { this.setState(prevState => ({ visible: false })) }}>
+            <Text>{this.state.orders[this.state.index].restaurant}</Text>
+            <Text> {this.state.orders[this.state.index].number} Orders Left </Text>
+            <Text> {this.state.orders[this.state.index].location} </Text>
+            <Text> {this.state.orders[this.state.index].description} </Text>
+            <Button
+              buttonStyle={{borderRadius: 0, marginLeft: 0, marginRight: 0, marginBottom: 0}}
+              onPress={() => { this.setState(prevState => ({ visible: true})) }}
+              title='Request Pickup'
+             />
           </Overlay>
           </View>
       );
