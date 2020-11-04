@@ -4,7 +4,7 @@ import React from 'react';
 import { StyleSheet, Text, View} from 'react-native';
 import { Button, ThemeProvider } from 'react-native-elements';
 import {storeHighScore} from "./firebase.js";
-
+import OrderGrid from './OrderCards';
 
 class HomeScreen extends React.Component {
   render() {
@@ -17,6 +17,7 @@ class HomeScreen extends React.Component {
             this.props.navigation.navigate('AddPickUp')
           }
         />
+        <OrderGrid/>
       </View>
     );
   }

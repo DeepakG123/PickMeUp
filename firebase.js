@@ -34,3 +34,13 @@ export function addPickUp(Restaurant, Location, Number, Time, Description){
       Description: Description
     });
 }
+
+export function getOrders(){
+  firebase
+    .database()
+    .ref('orders/')
+    .once('value')
+    .then(snapshot => {
+      console.log('Orders: ', snapshot.val());
+    });
+}

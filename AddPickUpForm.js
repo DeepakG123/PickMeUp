@@ -13,7 +13,7 @@ export default class Form extends Component {
       <Formik
         initialValues={{ restaurant: '', location: '', number: 0, time: '', description: ''}}
         onSubmit={(values, {setSubmitting, resetForm}) => {
-          addPickUp(values.restaurant, values.location, values.number, values.number, values.time, values.description, () => {
+          addPickUp(values.restaurant, values.location, values.number, values.time, values.description, () => {
           resetForm(initialValues)
         })
         setSubmitting(false);
