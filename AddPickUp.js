@@ -4,19 +4,22 @@ import React from 'react';
 import { StyleSheet, Text, View} from 'react-native';
 import { Button, ThemeProvider } from 'react-native-elements';
 import {storeHighScore} from "./firebase.js";
+import Icon from 'react-native-vector-icons/FontAwesome';
+import { Input } from 'react-native-elements';
+import { useForm } from "react-hook-form"
+import PickUpForm from './AddPickUpForm';
 
-
-class HomeScreen extends React.Component {
+export default class HomeScreen extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-        <Text>Add Pick Up</Text>
         <Button
           title="View Orders"
           onPress={() =>
             this.props.navigation.navigate('Home')
           }
         />
+        <PickUpForm/>
       </View>
     );
   }
@@ -27,8 +30,5 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#fff',
     alignItems: 'center',
-    justifyContent: 'top',
   },
 });
-
-export default HomeScreen;

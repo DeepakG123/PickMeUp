@@ -21,3 +21,16 @@ export function storeHighScore() {
       highscore: 12,
     });
 }
+
+export function addPickUp(Restaurant, Location, Number, Time, Description){
+  firebase
+    .database()
+    .ref('orders/')
+    .push({
+      Restaurant: Restaurant,
+      Location: Location,
+      Number: Number,
+      Time: Time,
+      Description: Description
+    });
+}
