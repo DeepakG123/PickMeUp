@@ -1,8 +1,7 @@
-// components/signup.js
 import React, { Component } from 'react';
 import { StyleSheet, Text, View, TextInput, Button, Alert, ActivityIndicator } from 'react-native';
 import firebase from './firebase'
-
+import {addUser} from "./firebase.js";
 
 export default class Signup extends Component {
 
@@ -10,6 +9,7 @@ export default class Signup extends Component {
     super();
     this.state = {
       displayName: '',
+      username: '',
       email: '',
       password: '',
       isLoading: false
@@ -26,6 +26,7 @@ export default class Signup extends Component {
     if(this.state.email === '' && this.state.password === '') {
       Alert.alert('Enter details to signup!')
     } else {
+      addUser(this.state.username, this.state.email, this.state.displayName)
       this.setState({
         isLoading: true,
       })
@@ -34,12 +35,14 @@ export default class Signup extends Component {
       .createUserWithEmailAndPassword(this.state.email, this.state.password)
       .then((res) => {
         res.user.updateProfile({
-          displayName: this.state.displayName
+          displayName: this.state.displayName,
+          username: this.state.username
         })
         console.log('User registered successfully!')
         this.setState({
           isLoading: false,
           displayName: '',
+          username: '',
           email: '',
           password: ''
         })
@@ -64,6 +67,12 @@ export default class Signup extends Component {
           placeholder="Name"
           value={this.state.displayName}
           onChangeText={(val) => this.updateInputVal(val, 'displayName')}
+        />
+        <TextInput
+          style={styles.inputStyle}
+          placeholder="username"
+          value={this.state.username}
+          onChangeText={(val) => this.updateInputVal(val, 'username')}
         />
         <TextInput
           style={styles.inputStyle}

@@ -26,6 +26,19 @@ export function addPickUp(Restaurant, Location, Number, Time, Description){
     });
 }
 
+export function addUser(username, email, name){
+  firebase
+    .database()
+    .ref('users/' + username)
+    .set({
+      name: name,
+      username: username,
+      email: email,
+      credits: 200, 
+      profile_picture: null
+    });
+}
+
 export function getOrders(){
   firebase
     .database()
@@ -34,6 +47,12 @@ export function getOrders(){
     .then(snapshot => {
       console.log('Orders: ', snapshot.val());
     });
+}
+
+export function getUser(email){
+  return firebase
+    .database()
+    ref.child('users').orderByChild('email').equalTo(email)
 }
 
 export default firebase;

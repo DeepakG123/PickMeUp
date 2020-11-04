@@ -15,7 +15,6 @@ import {storeHighScore} from "./firebase.js";
 const Stack = createStackNavigator();
 
 
-
 class App extends React.Component {
   render() {
     return (

@@ -3,7 +3,6 @@ import { StatusBar } from 'expo-status-bar';
 import React from 'react';
 import { StyleSheet, Text, View} from 'react-native';
 import { Button, ThemeProvider } from 'react-native-elements';
-import {storeHighScore} from "./firebase.js";
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { Input } from 'react-native-elements';
 import { useForm } from "react-hook-form"

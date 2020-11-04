@@ -3,11 +3,13 @@ import { StatusBar } from 'expo-status-bar';
 import React from 'react';
 import { StyleSheet, Text, View} from 'react-native';
 import { Button, ThemeProvider } from 'react-native-elements';
-import {storeHighScore} from "./firebase.js";
+import {getUser} from "./firebase.js";
 import OrderGrid from './OrderCards';
+import firebase from './firebase';
 
 class HomeScreen extends React.Component {
   render() {
+    console.log(firebase.auth().currentUser.uid);
     return (
       <View style={styles.container}>
         <Text>View Orders</Text>
