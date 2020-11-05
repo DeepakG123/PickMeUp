@@ -2,7 +2,7 @@ import React, { Component, Fragment } from 'react';
 import { View, Text, Image } from 'react-native'
 import { Card, ListItem, Button, Icon, Overlay } from 'react-native-elements'
 import {getOrders} from "./firebase.js";
-
+import firebase from './firebase';
 
 
 export default class Form extends Component {
@@ -23,22 +23,24 @@ export default class Form extends Component {
           description: 'Meet in the classroom at 12:15pm'
        }
      ],
+      orderList: [],
       visible: false,
-      index: 0
+      index: 0,
+      dataPresent: false
       }
 
 
       cards = () => {
-      return this.state.orders.map((order,index) => {
+      return this.state.orderList.map((order,index) => {
           return (
             <Card>
-              <Card.Title>{order.restaurant}</Card.Title>
+              <Card.Title>{order.Restaurant}</Card.Title>
               <Card.Divider/>
               <Text style={{marginBottom: 10}}>
-                  Pickup Time: {order.time}
+                  Pickup Time: {order.Time}
               </Text>
               <Text style={{marginBottom: 10}}>
-                  Number of Orders Left: {order.number}
+                  Number of Orders Left: {order.Number}
               </Text>
               <Button
                 buttonStyle={{borderRadius: 0, marginLeft: 0, marginRight: 0, marginBottom: 0}}
@@ -50,8 +52,17 @@ export default class Form extends Component {
         });
       };
 
+      componentDidMount() {
+        var ordersRef = firebase.database().ref('/orders');
+        ordersRef.once('value').then(snapshot => {
+          // snapshot.val() is the dictionary with all your keys/values from the '/store' path
+          this.setState({ orderList: Object.values(snapshot.val()), dataPresent: true})
+        })
+      }
+
       render() {
-        console.log(typeof(this.state.visible))
+        var orderArray = Object.values(this.state.orderList);
+        if(this.state.dataPresent){
         return (
           <View>
           {this.cards()}
@@ -68,5 +79,13 @@ export default class Form extends Component {
           </Overlay>
           </View>
       );
+    }
+    else{
+      return(
+      <View>
+      <Text> Data Loading </Text>
+      </View>
+    );
+    }
   }
 }
