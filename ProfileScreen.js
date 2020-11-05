@@ -1,7 +1,7 @@
 import 'react-native-gesture-handler';
 import { StatusBar } from 'expo-status-bar';
 import React from 'react';
-import { StyleSheet, Text, View} from 'react-native';
+import { StyleSheet, Text, View, ScrollView} from 'react-native';
 import { Button, ThemeProvider } from 'react-native-elements';
 import {getUser} from "./firebase.js";
 import firebase from './firebase';
@@ -19,7 +19,8 @@ class ProfileScreen extends React.Component {
         ref.orderByChild("email").equalTo(firebase.auth().currentUser.email).once("value").then((snapshot) => {
           this.setState({user:Object.values(snapshot.val()), dataPresent:true})
           });
-    }
+      }
+
       render() {
         console.log(firebase.auth().currentUser.email);
         if(this.state.dataPresent){

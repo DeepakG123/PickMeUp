@@ -8,25 +8,12 @@ import firebase from './firebase';
 
 
 export default class Form extends Component {
-  state = {
-    username:'',
-    dataPresent: false
-  }
-
-  componentDidMount() {
-    var ref = firebase.database().ref("/users");
-    ref.orderByChild("email").equalTo(firebase.auth().currentUser.email).once("value").then((snapshot) => {
-      this.setState({username:Object.values(snapshot.val())[0].username, dataPresent:true})
-      });
-  }
-
   render() {
-    if(this.state.dataPresent){
     return (
       <Formik
-        initialValues={{ restaurant: '', location: '', number: 0, time: '', description: '', username: this.state.username}}
+        initialValues={{ restaurant: '', location: '', number: 0, time: '', description: ''}}
         onSubmit={(values, {setSubmitting, resetForm}) => {
-          addPickUp(values.restaurant, values.location, values.number, values.time, values.description, values.username, () => {
+          addPickUp(values.restaurant, values.location, values.number, values.time, values.description, () => {
           resetForm(initialValues)
         })
         setSubmitting(false);
@@ -105,13 +92,5 @@ export default class Form extends Component {
         )}
       </Formik>
     );
-  }
-  else{
-    return(
-    <View>
-      <Text> Loading Data </Text>
-    </View>
-  );
-  }
   }
 }
