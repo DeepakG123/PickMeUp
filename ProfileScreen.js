@@ -25,13 +25,22 @@ class ProfileScreen extends React.Component {
         if(this.state.dataPresent){
           console.log(this.state.user[0].name)
         }
+        if(this.state.dataPresent){
         return (
           <View style={styles.container}>
-            <Text>Welcome Jack</Text>
+            <Text>Welcome {this.state.user[0].name}</Text>
             <Text>Order Requests</Text>
             <Text>Order Pickups</Text>
           </View>
         );
+      }
+      else{
+        return(
+          <View>
+          <Text> Data Loading </Text>
+          </View>
+        )
+      }
       }
     }
 

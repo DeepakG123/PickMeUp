@@ -1,19 +1,32 @@
 import * as yup from 'yup'
 import { Formik } from 'formik'
 import React, { Component, Fragment } from 'react';
-import { TextInput, Text, Button, Alert } from 'react-native';
+import { TextInput, Text, Button, Alert, View } from 'react-native';
 import { Input } from 'react-native-elements';
 import {addPickUp} from "./firebase.js";
-
+import firebase from './firebase';
 
 
 export default class Form extends Component {
+  state = {
+    username:'',
+    dataPresent: false
+  }
+
+  componentDidMount() {
+    var ref = firebase.database().ref("/users");
+    ref.orderByChild("email").equalTo(firebase.auth().currentUser.email).once("value").then((snapshot) => {
+      this.setState({username:Object.values(snapshot.val())[0].username, dataPresent:true})
+      });
+  }
+
   render() {
+    if(this.state.dataPresent){
     return (
       <Formik
-        initialValues={{ restaurant: '', location: '', number: 0, time: '', description: ''}}
+        initialValues={{ restaurant: '', location: '', number: 0, time: '', description: '', username: this.state.username}}
         onSubmit={(values, {setSubmitting, resetForm}) => {
-          addPickUp(values.restaurant, values.location, values.number, values.time, values.description, () => {
+          addPickUp(values.restaurant, values.location, values.number, values.time, values.description, values.username, () => {
           resetForm(initialValues)
         })
         setSubmitting(false);
@@ -92,5 +105,13 @@ export default class Form extends Component {
         )}
       </Formik>
     );
+  }
+  else{
+    return(
+    <View>
+      <Text> Loading Data </Text>
+    </View>
+  );
+  }
   }
 }

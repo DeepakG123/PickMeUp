@@ -13,7 +13,7 @@ const firebaseConfig = {
 
 firebase.initializeApp(firebaseConfig);
 
-export function addPickUp(Restaurant, Location, Number, Time, Description){
+export function addPickUp(Restaurant, Location, Number, Time, Description, Username){
   firebase
     .database()
     .ref('orders/')
@@ -24,6 +24,20 @@ export function addPickUp(Restaurant, Location, Number, Time, Description){
       Time: Time,
       Description: Description
     });
+    addPickUpUser(Restaurant, Location, Number, Time, Description, Username);
+}
+
+export function addPickUpUser(Restaurant, Location, Number, Time, Description, Username){
+  firebase
+    .database()
+    .ref('users/'+ username + '/orders')
+    .push({
+      Restaurant: Restaurant,
+      Location: Location,
+      Number: Number,
+      Time: Time,
+      Description: Description
+    })
 }
 
 export function addUser(username, email, name){
@@ -34,7 +48,7 @@ export function addUser(username, email, name){
       name: name,
       username: username,
       email: email,
-      credits: 200, 
+      credits: 200,
       profile_picture: null
     });
 }
