@@ -6,27 +6,11 @@ import firebase from './firebase';
 
 
 export default class Form extends Component {
-      state = {orders:
-        [
-       {
-          restaurant: 'Chipotle',
-          location: 'Clemons Library',
-          number: 4,
-          time: '3:00pm',
-          description: 'Meet at the first floor'
-       },
-       {
-          restaurant: 'Roots',
-          location: 'Clark Library',
-          number: 2,
-          time: '12:00pm',
-          description: 'Meet in the classroom at 12:15pm'
-       }
-     ],
+      state = {
       orderList: [],
-      visible: false,
       index: 0,
-      dataPresent: false
+      dataPresent: false,
+      isVisible: false,
       }
 
 
@@ -61,19 +45,18 @@ export default class Form extends Component {
       }
 
       render() {
-        var orderArray = Object.values(this.state.orderList);
         if(this.state.dataPresent){
         return (
           <View>
           {this.cards()}
-          <Overlay isVisible={this.state.visible} onBackdropPress={() => { this.setState(prevState => ({ visible: false })) }}>
-            <Text>{this.state.orders[this.state.index].restaurant}</Text>
-            <Text> {this.state.orders[this.state.index].number} Orders Left </Text>
-            <Text> {this.state.orders[this.state.index].location} </Text>
-            <Text> {this.state.orders[this.state.index].description} </Text>
+          <Overlay isVisible={this.state.isVisible} onBackdropPress={() => this.setState({isVisible:false})}>
+            <Text>{this.state.orderList[this.state.index].Restaurant}</Text>
+            <Text> {this.state.orderList[this.state.index].Number} Orders Left </Text>
+            <Text> {this.state.orderList[this.state.index].Location} </Text>
+            <Text> {this.state.orderList[this.state.index].Description} </Text>
             <Button
               buttonStyle={{borderRadius: 0, marginLeft: 0, marginRight: 0, marginBottom: 0}}
-              onPress={() => { this.setState(prevState => ({ visible: true})) }}
+              onPress={() => this.setState({isVisible:true})}
               title='Request Pickup'
              />
           </Overlay>

@@ -10,10 +10,9 @@ import Login from './login';
 import Signup from './signup';
 import HomeScreen from './HomeScreen';
 import AddPickUp from './AddPickUp'
-import {storeHighScore} from "./firebase.js";
+import ProfileScreen from './ProfileScreen'
 
 const Stack = createStackNavigator();
-
 
 class App extends React.Component {
   render() {
@@ -31,6 +30,10 @@ class App extends React.Component {
               fontWeight: 'bold',
             },
           }}>
+          <Stack.Screen
+              name="ProfileScreen"
+              component={ProfileScreen}
+            />
           <Stack.Screen
               name="Home"
               component={HomeScreen}

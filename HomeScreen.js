@@ -19,6 +19,12 @@ class HomeScreen extends React.Component {
             this.props.navigation.navigate('AddPickUp')
           }
         />
+        <Button
+          title="Profile Screen"
+          onPress={() =>
+            this.props.navigation.navigate('ProfileScreen')
+          }
+        />
         <OrderGrid/>
       </View>
     );
