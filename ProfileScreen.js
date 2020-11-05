@@ -17,6 +17,19 @@ class ProfileScreen extends React.Component {
       orders: []
       }
 
+      orderRows = () => {
+        return this.state.orders.map((order,index) => {
+          return(
+            <DataTable.Row>
+              <DataTable.Cell numeric>{order.Restaurant}</DataTable.Cell>
+              <DataTable.Cell numeric>{order.Number}</DataTable.Cell>
+              <DataTable.Cell numeric>{order.Location}</DataTable.Cell>
+              <DataTable.Cell numeric>{order.Time}</DataTable.Cell>
+            </DataTable.Row>
+          )
+        })
+      }
+
       componentDidMount() {
         var r1;
         firebase.database().ref("/users").orderByChild("email").equalTo(firebase.auth().currentUser.email).once("value").then((snapshot) => {
@@ -36,36 +49,17 @@ class ProfileScreen extends React.Component {
         return (
           <View style={styles.container}>
             <Text>Welcome {this.state.user[0].name}</Text>
-            <Text>Order Requests</Text>
             <Text>Order Pickups</Text>
             <DataTable>
               <DataTable.Header>
-                <DataTable.Title>Dessert</DataTable.Title>
-                <DataTable.Title numeric>Calories</DataTable.Title>
-                <DataTable.Title numeric>Fat</DataTable.Title>
+                <DataTable.Title>Restaurant</DataTable.Title>
+                <DataTable.Title numeric>Orders Left</DataTable.Title>
+                <DataTable.Title>Location</DataTable.Title>
+                <DataTable.Title>Time</DataTable.Title>
               </DataTable.Header>
-
-              <DataTable.Row>
-                <DataTable.Cell>Frozen yogurt</DataTable.Cell>
-                <DataTable.Cell numeric>159</DataTable.Cell>
-                <DataTable.Cell numeric>6.0</DataTable.Cell>
-              </DataTable.Row>
-
-              <DataTable.Row>
-                <DataTable.Cell>Ice cream sandwich</DataTable.Cell>
-                <DataTable.Cell numeric>237</DataTable.Cell>
-                <DataTable.Cell numeric>8.0</DataTable.Cell>
-              </DataTable.Row>
-
-              <DataTable.Pagination
-                page={1}
-                numberOfPages={3}
-                onPageChange={page => {
-                  console.log(page);
-                }}
-                label="1-2 of 6"
-              />
+              {this.orderRows()}
               </DataTable>
+              <Text>Order Requests</Text>
           </View>
         );
       }

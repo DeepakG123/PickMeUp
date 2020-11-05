@@ -8,6 +8,10 @@ import OrderGrid from './OrderCards';
 import firebase from './firebase';
 
 class HomeScreen extends React.Component {
+  state = {
+    visible: false
+  }
+
   render() {
     console.log(firebase.auth().currentUser.uid);
     return (

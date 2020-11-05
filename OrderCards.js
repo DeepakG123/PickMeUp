@@ -1,18 +1,16 @@
 import React, { Component, Fragment } from 'react';
-import { View, Text, Image } from 'react-native'
+import { View, Text, Image, Modal, TouchableHighlight, StyleSheet } from 'react-native'
 import { Card, ListItem, Button, Icon, Overlay } from 'react-native-elements'
 import {getOrders} from "./firebase.js";
 import firebase from './firebase';
 
-
-export default class Form extends Component {
+class Form extends Component {
       state = {
       orderList: [],
       index: 0,
       dataPresent: false,
-      isVisible: false,
+      visible: false,
       }
-
 
       cards = () => {
       return this.state.orderList.map((order,index) => {
@@ -28,7 +26,7 @@ export default class Form extends Component {
               </Text>
               <Button
                 buttonStyle={{borderRadius: 0, marginLeft: 0, marginRight: 0, marginBottom: 0}}
-                onPress={() => { this.setState(prevState => ({ index: index})) }}
+                onPress={() => { this.setState(prevState => ({ index: index, visible:true})) }}
                 title='More Details'
                  />
             </Card>
@@ -49,17 +47,26 @@ export default class Form extends Component {
         return (
           <View>
           {this.cards()}
-          <Overlay isVisible={this.state.isVisible} onBackdropPress={() => this.setState({isVisible:false})}>
-            <Text>{this.state.orderList[this.state.index].Restaurant}</Text>
-            <Text> {this.state.orderList[this.state.index].Number} Orders Left </Text>
-            <Text> {this.state.orderList[this.state.index].Location} </Text>
-            <Text> {this.state.orderList[this.state.index].Description} </Text>
-            <Button
-              buttonStyle={{borderRadius: 0, marginLeft: 0, marginRight: 0, marginBottom: 0}}
-              onPress={() => this.setState({isVisible:true})}
-              title='Request Pickup'
-             />
-          </Overlay>
+          <Modal visible={this.state.visible} >
+            <View style={styles.centeredView}>
+              <View style={styles.modalView}>
+              <Text>{this.state.orderList[this.state.index].Restaurant}</Text>
+                <Text> {this.state.orderList[this.state.index].Number} Orders Left </Text>
+                <Text> {this.state.orderList[this.state.index].Location} </Text>
+                <Text> {this.state.orderList[this.state.index].Description} </Text>
+                <Button
+                  buttonStyle={{borderRadius: 0, marginLeft: 0, marginRight: 0, marginBottom: 0}}
+                  onPress={() => this.setState({visible:false})}
+                  title='Request Pickup'
+                 />
+                 <Button
+                   buttonStyle={{borderRadius: 0, marginLeft: 0, marginRight: 0, marginBottom: 0}}
+                   onPress={() => this.setState({visible:false})}
+                   title='Close Modal'
+                  />
+              </View>
+            </View>
+          </Modal>
           </View>
       );
     }
@@ -72,3 +79,38 @@ export default class Form extends Component {
     }
   }
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+  scrollView: {
+    marginHorizontal: 20,
+  },
+  text: {
+    fontSize: 42,
+  },
+  centeredView: {
+  flex: 1,
+  justifyContent: "center",
+  alignItems: "center",
+  marginTop: 22
+},
+  modalView: {
+  margin: 20,
+  backgroundColor: "white",
+  borderRadius: 20,
+  padding: 35,
+  alignItems: "center",
+  shadowColor: "#000",
+  shadowOffset: {
+    width: 0,
+    height: 2
+  },
+  shadowOpacity: 0.25,
+  shadowRadius: 3.84,
+  elevation: 5
+},
+});
+
+export default Form;
