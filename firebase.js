@@ -33,7 +33,7 @@ export function addPickUpUser(Restaurant, Location, Number, Time, Description){
      r1 = Object.values(snapshot.val())[0].username;
      return r1;
   }).then(function(result1){
-    firebase.database().ref('users/'+ r1  + '/orders/').push({
+    firebase.database().ref('users/'+  r1  + '/orders/').push({
         Restaurant: Restaurant,
         Location: Location,
         Number: Number,
@@ -65,6 +65,7 @@ export function getOrders(){
       console.log('Orders: ', snapshot.val());
     });
 }
+
 
 export function getUser(email){
   return firebase

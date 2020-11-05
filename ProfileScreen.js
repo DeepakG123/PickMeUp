@@ -11,22 +11,26 @@ class ProfileScreen extends React.Component {
       index: 0,
       dataPresent: false,
       isVisible: false,
-      userList: []
+      userList: [],
+      orders: []
       }
 
       componentDidMount() {
-        var ref = firebase.database().ref("/users");
-        ref.orderByChild("email").equalTo(firebase.auth().currentUser.email).once("value").then((snapshot) => {
-          this.setState({user:Object.values(snapshot.val()), dataPresent:true})
-          });
+        var r1;
+        firebase.database().ref("/users").orderByChild("email").equalTo(firebase.auth().currentUser.email).once("value").then((snapshot) => {
+           this.setState({user:Object.values(snapshot.val())})
+           r1 = Object.values(snapshot.val())[0].username;
+           return r1;
+        }).then((result1) => {
+          firebase.database().ref('users/'+  r1  + '/orders/').once('value').then((snapshot => {
+              this.setState({orders: Object.values(snapshot.val()), dataPresent: true})
+          }))
+        })
       }
 
       render() {
-        console.log(firebase.auth().currentUser.email);
         if(this.state.dataPresent){
-          console.log(this.state.user[0].name)
-        }
-        if(this.state.dataPresent){
+          console.log(this.state.orders);
         return (
           <View style={styles.container}>
             <Text>Welcome {this.state.user[0].name}</Text>
