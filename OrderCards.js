@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import { View, Text, Image, Modal, TouchableHighlight, StyleSheet } from 'react-native'
 import { Card, ListItem, Button, Icon, Overlay } from 'react-native-elements'
-import {getOrders} from "./firebase.js";
+import {addRequest} from "./firebase.js";
 import firebase from './firebase';
 
 class Form extends Component {
@@ -47,7 +47,7 @@ class Form extends Component {
         return (
           <View>
           {this.cards()}
-          <Modal visible={this.state.visible} >
+          <Modal visible={this.state.visible}  transparent={true}>
             <View style={styles.centeredView}>
               <View style={styles.modalView}>
               <Text>{this.state.orderList[this.state.index].Restaurant}</Text>
@@ -56,7 +56,8 @@ class Form extends Component {
                 <Text> {this.state.orderList[this.state.index].Description} </Text>
                 <Button
                   buttonStyle={{borderRadius: 0, marginLeft: 0, marginRight: 0, marginBottom: 0}}
-                  onPress={() => this.setState({visible:false})}
+                  onPress={() => addRequest(this.state.orderList[this.state.index].Restaurant, this.state.orderList[this.state.index].Location,this.state.orderList[this.state.index].Number, this.state.orderList[this.state.index].Time, this.state.orderList[this.state.index].Description, firebase.auth().currentUser.email,this.state.orderList[this.state.index].Username
+                  )}
                   title='Request Pickup'
                  />
                  <Button

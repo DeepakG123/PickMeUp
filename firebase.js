@@ -14,17 +14,39 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 
 export function addPickUp(Restaurant, Location, Number, Time, Description){
+  var r1;
+    firebase.database().ref("/users").orderByChild("email").equalTo(firebase.auth().currentUser.email).once("value").then((snapshot) => {
+       r1 = Object.values(snapshot.val())[0].username;
+       return r1;
+    }).then(function(result1){
+    firebase
+      .database()
+      .ref('orders/')
+      .push({
+        Restaurant: Restaurant,
+        Location: Location,
+        Number: Number,
+        Time: Time,
+        Description: Description,
+        Username: r1
+      })
+    })
+    addPickUpUser(Restaurant, Location, Number, Time, Description);
+}
+
+export function addRequest(Restaurant, Location, Number, Time, Description, Requester, Deliverer){
   firebase
     .database()
-    .ref('orders/')
+    .ref('requests/')
     .push({
       Restaurant: Restaurant,
       Location: Location,
-      Number: Number,
+      Number: Number-1,
       Time: Time,
-      Description: Description
+      Description: Description,
+      Requester: Requester,
+      Deliverer: Deliverer
     });
-    addPickUpUser(Restaurant, Location, Number, Time, Description);
 }
 
 export function addPickUpUser(Restaurant, Location, Number, Time, Description){
@@ -53,16 +75,6 @@ export function addUser(username, email, name){
       email: email,
       credits: 200,
       profile_picture: null
-    });
-}
-
-export function getOrders(){
-  firebase
-    .database()
-    .ref('orders/')
-    .once('value')
-    .then(snapshot => {
-      console.log('Orders: ', snapshot.val());
     });
 }
 
