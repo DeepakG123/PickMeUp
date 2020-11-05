@@ -5,6 +5,8 @@ import { StyleSheet, Text, View, ScrollView} from 'react-native';
 import { Button, ThemeProvider } from 'react-native-elements';
 import {getUser} from "./firebase.js";
 import firebase from './firebase';
+import { DataTable } from 'react-native-paper';
+
 
 class ProfileScreen extends React.Component {
       state = {
@@ -36,6 +38,34 @@ class ProfileScreen extends React.Component {
             <Text>Welcome {this.state.user[0].name}</Text>
             <Text>Order Requests</Text>
             <Text>Order Pickups</Text>
+            <DataTable>
+              <DataTable.Header>
+                <DataTable.Title>Dessert</DataTable.Title>
+                <DataTable.Title numeric>Calories</DataTable.Title>
+                <DataTable.Title numeric>Fat</DataTable.Title>
+              </DataTable.Header>
+
+              <DataTable.Row>
+                <DataTable.Cell>Frozen yogurt</DataTable.Cell>
+                <DataTable.Cell numeric>159</DataTable.Cell>
+                <DataTable.Cell numeric>6.0</DataTable.Cell>
+              </DataTable.Row>
+
+              <DataTable.Row>
+                <DataTable.Cell>Ice cream sandwich</DataTable.Cell>
+                <DataTable.Cell numeric>237</DataTable.Cell>
+                <DataTable.Cell numeric>8.0</DataTable.Cell>
+              </DataTable.Row>
+
+              <DataTable.Pagination
+                page={1}
+                numberOfPages={3}
+                onPageChange={page => {
+                  console.log(page);
+                }}
+                label="1-2 of 6"
+              />
+              </DataTable>
           </View>
         );
       }
