@@ -14,25 +14,41 @@ class ProfileScreen extends React.Component {
       dataPresent: false,
       isVisible: false,
       userList: [],
-      orders: []
+      orders: [],
+      requests: [],
+      user:""
       }
 
       orderRows = () => {
         return this.state.orders.map((order,index) => {
           return(
             <DataTable.Row>
-              <DataTable.Cell numeric>{order.Restaurant}</DataTable.Cell>
-              <DataTable.Cell numeric>{order.Number}</DataTable.Cell>
-              <DataTable.Cell numeric>{order.Location}</DataTable.Cell>
-              <DataTable.Cell numeric>{order.Time}</DataTable.Cell>
+              <DataTable.Cell >{order.Restaurant}</DataTable.Cell>
+              <DataTable.Cell >{order.Location}</DataTable.Cell>
+              <DataTable.Cell >{order.Time}</DataTable.Cell>
             </DataTable.Row>
           )
         })
       }
 
+      requestRows = () => {
+        return this.state.requests.map((order,index) => {
+          return(
+            <DataTable.Row>
+              <DataTable.Cell >{order.Restaurant}</DataTable.Cell>
+              <DataTable.Cell >{order.Location}</DataTable.Cell>
+              <DataTable.Cell >{order.Time}</DataTable.Cell>
+              <DataTable.Cell >{order.Deliverer}</DataTable.Cell>
+            </DataTable.Row>
+          )
+        })
+      }
+
+
       componentDidMount() {
+        console.log(firebase.auth().currentUser.email)
         var r1;
-        firebase.database().ref("/users").orderByChild("email").equalTo(firebase.auth().currentUser.email).once("value").then((snapshot) => {
+        firebase.database().ref("users/").orderByChild("email").equalTo(firebase.auth().currentUser.email).once("value").then((snapshot) => {
            this.setState({user:Object.values(snapshot.val())})
            r1 = Object.values(snapshot.val())[0].username;
            return r1;
@@ -40,12 +56,16 @@ class ProfileScreen extends React.Component {
           firebase.database().ref('users/'+  r1  + '/orders/').once('value').then((snapshot => {
               this.setState({orders: Object.values(snapshot.val()), dataPresent: true})
           }))
-        })
+        }).then((result1) => {
+          firebase.database().ref('users/'+  r1  + '/requests/').once('value').then((snapshot => {
+              console.log(snapshot.val());
+              this.setState({requests: Object.values(snapshot.val()), dataPresent: true})
+        }))
+      })
       }
 
       render() {
         if(this.state.dataPresent){
-          console.log(this.state.orders);
         return (
           <View style={styles.container}>
             <Text>Welcome {this.state.user[0].name}</Text>
@@ -53,13 +73,21 @@ class ProfileScreen extends React.Component {
             <DataTable>
               <DataTable.Header>
                 <DataTable.Title>Restaurant</DataTable.Title>
-                <DataTable.Title numeric>Orders Left</DataTable.Title>
                 <DataTable.Title>Location</DataTable.Title>
                 <DataTable.Title>Time</DataTable.Title>
               </DataTable.Header>
               {this.orderRows()}
               </DataTable>
               <Text>Order Requests</Text>
+              <DataTable>
+                <DataTable.Header>
+                  <DataTable.Title>Restaurant</DataTable.Title>
+                  <DataTable.Title>Location</DataTable.Title>
+                  <DataTable.Title>Time</DataTable.Title>
+                  <DataTable.Title>Deliverer</DataTable.Title>
+                </DataTable.Header>
+                {this.requestRows()}
+                </DataTable>
           </View>
         );
       }
@@ -68,7 +96,7 @@ class ProfileScreen extends React.Component {
           <View>
           <Text> Data Loading </Text>
           </View>
-        )
+        );
       }
       }
     }

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, TextInput, Button, Alert, ActivityIndicator } from 'react-native';
+import { StyleSheet, View, TextInput, Button, Alert, ActivityIndicator } from 'react-native';
+import { Text } from 'react-native-elements';
 import firebase from './firebase';
 
 export default class Login extends Component {
@@ -53,6 +54,7 @@ export default class Login extends Component {
    }
    return (
      <View style={styles.container}>
+     <Text style={{color:'white', marginBottom:30}} h1>PickMeUp</Text>
        <TextInput
          style={styles.inputStyle}
          placeholder="Email"
@@ -68,8 +70,8 @@ export default class Login extends Component {
          secureTextEntry={true}
        />
        <Button
-         color="#3740FE"
-         title="Signin"
+         color="white"
+         title="Login"
          onPress={() => this.userLogin()}
        />
 
@@ -90,20 +92,22 @@ const styles = StyleSheet.create({
    flexDirection: "column",
    justifyContent: "center",
    padding: 35,
-   backgroundColor: '#fff'
+   borderColor: '#8fe5c0',
+   backgroundColor: '#8fe5c0'
  },
  inputStyle: {
    width: '100%',
    marginBottom: 15,
    paddingBottom: 15,
    alignSelf: "center",
-   borderColor: "#ccc",
+   borderColor: "white",
    borderBottomWidth: 1
  },
  loginText: {
-   color: '#3740FE',
-   marginTop: 25,
-   textAlign: 'center'
+   color: 'white',
+   marginTop: 10,
+   textAlign: 'center',
+   fontSize: 20
  },
  preloader: {
    left: 0,

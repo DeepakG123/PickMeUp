@@ -2,10 +2,20 @@ import 'react-native-gesture-handler';
 import { StatusBar } from 'expo-status-bar';
 import React from 'react';
 import { StyleSheet, Text, View, ScrollView,SafeAreaView} from 'react-native';
-import { Button, ThemeProvider } from 'react-native-elements';
+import {ThemeProvider, Button} from 'react-native-elements';
 import {getUser} from "./firebase.js";
 import OrderGrid from './OrderCards';
 import firebase from './firebase';
+import AddPickUp from './AddPickUp'
+import ProfileScreen from './ProfileScreen'
+
+const theme = {
+  colors: {
+    primary: '#8fe5c0',
+  }
+}
+
+
 
 class HomeScreen extends React.Component {
   state = {
@@ -13,17 +23,19 @@ class HomeScreen extends React.Component {
   }
 
   render() {
-    console.log(firebase.auth().currentUser.uid);
     return (
+      <ThemeProvider theme={theme} >
       <SafeAreaView style={styles.container}>
         <ScrollView style={styles.scrollView}>
           <Button
+            buttonStyle={{borderRadius: 0, marginLeft: 75, marginRight: 75, marginTop: 10}}
             title="Add a Pick Up"
             onPress={() =>
               this.props.navigation.navigate('AddPickUp')
             }
           />
           <Button
+            buttonStyle={{borderRadius: 0, marginLeft: 75, marginRight: 75, marginTop: 10}}
             title="Profile Screen"
             onPress={() =>
               this.props.navigation.navigate('ProfileScreen')
@@ -32,14 +44,12 @@ class HomeScreen extends React.Component {
             <OrderGrid/>
             </ScrollView>
         </SafeAreaView>
+        </ThemeProvider>
     );
   }
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
   scrollView: {
     marginHorizontal: 20,
   },

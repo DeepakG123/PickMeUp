@@ -1,22 +1,27 @@
+import 'react-native-gesture-handler';
 import * as yup from 'yup'
 import { Formik } from 'formik'
 import React, { Component, Fragment } from 'react';
-import { TextInput, Text, Button, Alert, View } from 'react-native';
-import { Input } from 'react-native-elements';
+import { TextInput, Text, Alert, View } from 'react-native';
+import { Input, ThemeProvider, Button } from 'react-native-elements';
 import {addPickUp} from "./firebase.js";
 import firebase from './firebase';
 
+const theme = {
+  colors: {
+    primary: '#8fe5c0',
+  }
+}
 
 export default class Form extends Component {
   render() {
+    console.log(firebase.auth().currentUser.email)
     return (
+      <ThemeProvider theme={theme} >
       <Formik
         initialValues={{ restaurant: '', location: '', number: 0, time: '', description: ''}}
         onSubmit={(values, {setSubmitting, resetForm}) => {
-          addPickUp(values.restaurant, values.location, values.number, values.time, values.description, () => {
-          resetForm(initialValues)
-        })
-        setSubmitting(false);
+          addPickUp(values.restaurant, values.location, values.number, values.time, values.description)
       }}
         validationSchema={yup.object().shape({
           restaurant: yup
@@ -84,6 +89,7 @@ export default class Form extends Component {
               <Text style={{ fontSize: 10, color: 'red' }}>{errors.number}</Text>
             }
             <Button
+              buttonStyle={{borderRadius: 0, marginLeft: 75, marginRight: 75, marginBottom: 20, marginTop: 10}}
               title='Submit Order'
               disabled={!isValid}
               onPress={handleSubmit}
@@ -91,6 +97,8 @@ export default class Form extends Component {
           </Fragment>
         )}
       </Formik>
+      </ThemeProvider>
+
     );
   }
 }

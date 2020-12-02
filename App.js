@@ -5,7 +5,7 @@ import { StyleSheet, Text, View} from 'react-native';
 import { Button, ThemeProvider } from 'react-native-elements';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Login from './login';
 import Signup from './signup';
 import HomeScreen from './HomeScreen';
@@ -13,6 +13,9 @@ import AddPickUp from './AddPickUp'
 import ProfileScreen from './ProfileScreen'
 
 const Stack = createStackNavigator();
+
+const Tab = createBottomTabNavigator();
+
 
 class App extends React.Component {
   render() {
@@ -23,11 +26,13 @@ class App extends React.Component {
           screenOptions={{
             headerTitleAlign: 'center',
             headerStyle: {
-              backgroundColor: '#3740FE',
+              backgroundColor: '#8fe5c0',
             },
             headerTintColor: '#fff',
             headerTitleStyle: {
               fontWeight: 'bold',
+              fontSize: 25,
+              marginTop: 10
             },
           }}>
           <Stack.Screen
@@ -64,7 +69,7 @@ class App extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: '#8fe5c0',
     alignItems: 'center',
   },
 });

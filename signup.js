@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, TextInput, Button, Alert, ActivityIndicator } from 'react-native';
+import { StyleSheet, View, TextInput, Button, Alert, ActivityIndicator } from 'react-native';
 import firebase from './firebase'
-import {addUser} from "./firebase.js";
+import {addUser, addPickUp} from "./firebase.js";
+import { Text } from 'react-native-elements';
 
 export default class Signup extends Component {
 
@@ -62,6 +63,7 @@ export default class Signup extends Component {
     }
     return (
       <View style={styles.container}>
+      <Text style={{color:'white', marginBottom:30}} h1>PickMeUp</Text>
         <TextInput
           style={styles.inputStyle}
           placeholder="Name"
@@ -89,11 +91,10 @@ export default class Signup extends Component {
           secureTextEntry={true}
         />
         <Button
-          color="#3740FE"
-          title="Signup"
+          color="white"
+          title="Sign Up"
           onPress={() => this.registerUser()}
         />
-
         <Text
           style={styles.loginText}
           onPress={() => this.props.navigation.navigate('Login')}>
@@ -105,35 +106,37 @@ export default class Signup extends Component {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    display: "flex",
-    flexDirection: "column",
-    justifyContent: "center",
-    padding: 35,
-    backgroundColor: '#fff'
-  },
-  inputStyle: {
-    width: '100%',
-    marginBottom: 15,
-    paddingBottom: 15,
-    alignSelf: "center",
-    borderColor: "#ccc",
-    borderBottomWidth: 1
-  },
-  loginText: {
-    color: '#3740FE',
-    marginTop: 25,
-    textAlign: 'center'
-  },
-  preloader: {
-    left: 0,
-    right: 0,
-    top: 0,
-    bottom: 0,
-    position: 'absolute',
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: '#fff'
-  }
+ container: {
+   flex: 1,
+   display: "flex",
+   flexDirection: "column",
+   justifyContent: "center",
+   padding: 35,
+   borderColor: '#8fe5c0',
+   backgroundColor: '#8fe5c0'
+ },
+ inputStyle: {
+   width: '100%',
+   marginBottom: 15,
+   paddingBottom: 15,
+   alignSelf: "center",
+   borderColor: "white",
+   borderBottomWidth: 1
+ },
+ loginText: {
+   color: 'white',
+   marginTop: 10,
+   textAlign: 'center',
+   fontSize: 20
+ },
+ preloader: {
+   left: 0,
+   right: 0,
+   top: 0,
+   bottom: 0,
+   position: 'absolute',
+   alignItems: 'center',
+   justifyContent: 'center',
+   backgroundColor: '#fff'
+ }
 });

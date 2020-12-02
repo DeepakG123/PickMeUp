@@ -47,11 +47,11 @@ export function addRequest(Restaurant, Location, Number, Time, Description, Requ
       Requester: Requester,
       Deliverer: Deliverer
     });
-    addRequstUser(Restaurant, Location, Number, Time, Description, Deliverer);
+    addRequestUser (Restaurant, Location, Number, Time, Description, Deliverer);
 }
 
 
-export function addRequstUser(Restaurant, Location, Number, Time, Description, Deliverer){
+export function addRequestUser(Restaurant, Location, Number, Time, Description, Deliverer){
   var r1;
   firebase.database().ref("/users").orderByChild("email").equalTo(firebase.auth().currentUser.email).once("value").then((snapshot) => {
      r1 = Object.values(snapshot.val())[0].username;
