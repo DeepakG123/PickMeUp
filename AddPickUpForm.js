@@ -98,7 +98,6 @@ export default class Form extends Component {
         )}
       </Formik>
       </ThemeProvider>
-
     );
   }
 }

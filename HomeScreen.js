@@ -15,8 +15,6 @@ const theme = {
   }
 }
 
-
-
 class HomeScreen extends React.Component {
   state = {
     visible: false

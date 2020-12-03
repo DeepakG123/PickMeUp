@@ -1,11 +1,17 @@
 import 'react-native-gesture-handler';
 import { StatusBar } from 'expo-status-bar';
 import React from 'react';
-import { StyleSheet, Text, View, ScrollView} from 'react-native';
+import { StyleSheet, Text, View, ScrollView,SafeAreaView} from 'react-native';
 import { Button, ThemeProvider } from 'react-native-elements';
 import {getUser} from "./firebase.js";
 import firebase from './firebase';
-import { DataTable } from 'react-native-paper';
+import { DataTable,  DefaultTheme, Provider as PaperProvider} from 'react-native-paper';
+
+const theme = {
+  colors: {
+    primary: '#8fe5c0',
+  }
+}
 
 
 class ProfileScreen extends React.Component {
@@ -67,9 +73,11 @@ class ProfileScreen extends React.Component {
       render() {
         if(this.state.dataPresent){
         return (
+          <ThemeProvider theme={theme} >
+          <ScrollView style={styles.scrollView}>
           <View style={styles.container}>
-            <Text>Welcome {this.state.user[0].name}</Text>
-            <Text>Order Pickups</Text>
+            <Text style={{fontSize: 25, paddingTop: 20, paddingBottom: 20}}>Welcome Back {this.state.user[0].name}!</Text>
+            <Text style={{fontSize: 20, fontWeight:'bold', textAlign: 'left', width: '100%', paddingLeft: 15, paddingTop: 20, paddingBottom:10}}>Order Pickups</Text>
             <DataTable>
               <DataTable.Header>
                 <DataTable.Title>Restaurant</DataTable.Title>
@@ -78,7 +86,7 @@ class ProfileScreen extends React.Component {
               </DataTable.Header>
               {this.orderRows()}
               </DataTable>
-              <Text>Order Requests</Text>
+              <Text style={{fontSize: 20, fontWeight:'bold', textAlign: 'left', width: '100%', paddingLeft: 15, paddingTop: 40, paddingBottom:10}}>Order Requests</Text>
               <DataTable>
                 <DataTable.Header>
                   <DataTable.Title>Restaurant</DataTable.Title>
@@ -88,7 +96,17 @@ class ProfileScreen extends React.Component {
                 </DataTable.Header>
                 {this.requestRows()}
                 </DataTable>
+                <Text style={{fontSize: 20, fontWeight:'bold', textAlign: 'center', width: '100%', paddingLeft: 15, paddingTop: 40, paddingBottom:10}}>Your Credit</Text>
+                <Button
+                  buttonStyle={{borderRadius: 0, marginLeft: 75, marginRight: 75, marginTop: 5, marginBottom: 20, width: 200}}
+                  title={this.state.user[0].credits}
+                  onPress={() =>
+                    this.props.navigation.navigate('AddPickUp')
+                  }
+                />
           </View>
+            </ScrollView>
+            </ThemeProvider>
         );
       }
       else{
@@ -106,6 +124,9 @@ class ProfileScreen extends React.Component {
         flex: 1,
         backgroundColor: '#fff',
         alignItems: 'center',
+      },
+      scrollView: {
+        marginHorizontal: 10,
       },
     });
 
